@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <limits>
 
 using namespace std;
 
@@ -32,7 +33,22 @@ int main() {
 	* Add the students here!
 	*/
 	//----------------------------------------------------------------------------------------
-
+students[0].studentId = 1001;
+students[0].studentName = "Chris";
+students[0].studentGrades = 78.5;
+students[1].studentId = 1002;
+students[1].studentName = "Jill";
+students[1].studentGrades = 95.0;
+students[2].studentId = 1003;
+students[2].studentName = "Leon";
+students[2].studentGrades = 82.0;
+students[3].studentId = 1004;
+students[3].studentName = "Claire";
+students[3].studentGrades = 88.5;
+students[4].studentId = 1005;
+students[4].studentName = "Ethan";
+students[4].studentGrades = 91.0;
+count = 5; 
 
 
 
@@ -48,7 +64,13 @@ int main() {
 		printMenu();
 		cout << "Enter your choice: ";
 		cin >> choice;
-		cin.ignore();  // we add this to consume the leftover newline
+		if (cin.fail()) {
+			cin.clear(); // Clear the error state
+			cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignore the rest of the input
+			cout << "Invalid input. Enter a number between 1-6.\n";
+			continue; // show the menu again
+		}
+		cin.ignore(numeric_limits<streamsize>::max(), '\n'); // consume leftover newline 
 
 		switch (choice) {
 		case 1:
@@ -102,21 +124,57 @@ void highestGrade(Student students[], int count)
 		cout << "No students in the record.\n";
 		return;
 	}
+	float highest = students[0].studentGrades;
+	for (int i = 1; i < count; i++) {
+		if (students[i].studentGrades > highest) {
+			highest = students[i].studentGrades;
+		}
+	}
+	cout << "Highest grade: " << highest << endl;
 }
 void lowestGrade(Student students[], int count)
 {
-	// TODO: Print out all the lowest grade in the array
+	if (count == 0) {
+		cout << "No students in the record.\n";
+		return;
+	}
+	float lowest = students[0].studentGrades;
+	for (int i = 1; i < count; i++) {
+		if (students[i].studentGrades < lowest) {
+			lowest = students[i].studentGrades;
+		}
+	}
+	cout << "Lowest grade: " << lowest << endl;
 }
 
 void averageGrade(Student students[], int count)
 {
-	// TODO: Print out the average grade of the students
+	if (count == 0) {
+		cout << "No students in the record.\n";
+		return;
+	}
+	float sum = 0.0;
+	for (int i = 0; i < count; i++) {
+		sum += students[i].studentGrades;
+	}
+	float average = sum / count;
+	cout << "Average grade: " << fixed << setprecision(2) << average << endl;
 }
 void printStudentId(Student students[], int count)
 {
-	// TODO: Print out all the students id in the array
+	if (count == 0) {
+		cout << "No students in the record.\n";
+		return;
+	}
+	cout << "Student IDs:\n";
+	for (int i = 0; i < count; i++) {
+		cout << students[i].studentId << endl;	
+	}
 }
 void printStudentName(Student students[], int count)
 {
-	// TODO: Print out all the students name in the array
+	cout << "Student Names:\n";
+	for (int i = 0; i < count; i++) {
+		cout << students[i].studentName << endl;
+	}
 }
